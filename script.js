@@ -195,12 +195,9 @@ function setupLocationModal() {
                 },
                 (error) => {
                     console.error('Geolocation error:', error);
-                    // Use default location (Delhi)
-                    state.userLocation = {
-                        latitude: 28.7041,
-                        longitude: 77.1025,
-                        timestamp: Date.now()
-                    };
+                    console.log('Code:', error.code);
+                    console.log('Message:', error.message);
+                }
                     saveState();
                     fetchWeather();
                 }
