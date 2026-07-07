@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Video Overlay -->
+    <div id="bgVideoOverlay" class="bg-video-overlay">
+        <video id="bgVideo" muted loop>
+            <source src="" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Dashboard Home Screen -->
+    <div id="dashboard" class="dashboard-view active">
+        <!-- Header with Theme Toggle -->
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">Productivity Hub</h1>
+            <div class="header-right">
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Weather Widget -->
+            <div class="mainLeftSide">
+                <div class="date-time-widget">
+                    <div class="time-display" id="timeDisplay">12:00</div>
+                    <div class="date-display" id="dateDisplay">Mon, Jan 1</div>
+                </div>
+                <section class="weather-widget" id="weatherWidget">
+                    <div class="weather-loading">Loading weather...</div>
+                </section>
+            </div>
+
+            <!-- Feature Cards Grid -->
+            <div class="feature-grid">
+                <div class="feature-card" data-feature="todo">
+                    <div class="card-content">
+                        <div class="card-icon">📝</div>
+                        <div class="card-title">Todo List</div>
+                        <div class="card-subtitle">Manage your tasks</div>
+                    </div>
+                    <div class="card-video-overlay">
+                        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWFnNGRmYmltMXduMnpwOG93N2w3YWRvbnYwMTk5bjJjanE0YWM0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/B7o99rIuystY4/giphy.gif"
+                            alt="todo">
+                    </div>
+                </div>
+
+                <div class="feature-card" data-feature="planner">
+                    <div class="card-content">
+                        <div class="card-icon">📅</div>
+                        <div class="card-title">Daily Planner</div>
+                        <div class="card-subtitle">Plan your day</div>
+                    </div>
+                    <div class="card-video-overlay">
+                        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExejRpaXJ0dmFhODZ3Y20wMXUwcWdzNTd5cHZydGJ5c2RlMmc4OGVzaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/121cS334yDC0Hm/giphy.gif"
+                            alt="planner">
+                    </div>
+                </div>
+
+                <div class="feature-card" data-feature="goals">
+                    <div class="card-content">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-title">Daily Goals</div>
+                        <div class="card-subtitle">Track progress</div>
+                    </div>
+                    <div class="card-video-overlay">
+                        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExODU5dGdreWdydTNnYmtjcW94NXJ4c251aHFxcGk4OXJuOWxkZnU3MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KAe3Ez73EnmbDh9rot/giphy.gif"
+                            alt="goal">
+                    </div>
+                </div>
+
+                <div class="feature-card" data-feature="pomodoro">
+                    <div class="card-content">
+                        <div class="card-icon">⏱️</div>
+                        <div class="card-title">Pomodoro Timer</div>
+                        <div class="card-subtitle">Focus sessions</div>
+                    </div>
+                    <div class="card-video-overlay">
+                        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnFza2VsaXZodWY0a3poeWkzamEwMmRpOXZxNjlwcTlqZTZzYTBlOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QBd2kLB5qDmysEXre9/giphy.gif"
+                            alt="timer">
+                    </div>
+                </div>  
+
+                <div class="feature-card" data-feature="quotes">
+                    <div class="card-content">
+                        <div class="card-icon">✨</div>
+                        <div class="card-title">Motivation</div>
+                        <div class="card-subtitle">Daily inspiration</div>
+                    </div>
+                    <div class="card-video-overlay">
+                        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHdiMWpjcTluM2Q2YnpwZGxnNGp4N29lNjBqeDA5djF0NTVreGtsayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ujTVMASREzuRbH6zy5/giphy.gif" alt="motivation">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Location Permission Modal -->
+    <div id="locationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Enable Location Services</h3>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>📍 Allow access to your location to get accurate weather data for your area.</p>
+                <p class="modal-note">We don't store or share your location data.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="allowLocationBtn" class="btn-primary">Allow Location</button>
+                <button id="denyLocationBtn" class="btn-secondary">Use Default Location</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Views Container -->
+    <div id="featureViewContainer" class="feature-view-container">
+        <!-- Todo List Feature -->
+        <section id="todoFeature" class="feature-view" data-feature="todo">
+            <header class="feature-header">
+                <button class="back-btn" aria-label="Back to dashboard">&larr;</button>
+                <h2>Todo List</h2>
+            </header>
+            <div class="feature-content">
+                <div class="input-group">
+                    <input type="text" id="todoInput" class="task-input" placeholder="Add a new task...">
+                    <button id="addTodoBtn" class="btn-primary">Add</button>
+                </div>
+                <div id="todoList" class="todo-list"></div>
+            </div>
+        </section>
+
+        <!-- Daily Planner Feature -->
+        <section id="plannerFeature" class="feature-view" data-feature="planner">
+            <header class="feature-header">
+                <button class="back-btn" aria-label="Back to dashboard">&larr;</button>
+                <h2>Daily Planner</h2>
+            </header>
+            <div class="feature-content">
+                <div id="plannerSlots" class="planner-slots"></div>
+            </div>
+        </section>
+
+        <!-- Daily Goals Feature -->
+        <section id="goalsFeature" class="feature-view" data-feature="goals">
+            <header class="feature-header">
+                <button class="back-btn" aria-label="Back to dashboard">&larr;</button>
+                <h2>Daily Goals</h2>
+            </header>
+            <div class="feature-content">
+                <div class="input-group">
+                    <input type="text" id="goalInput" class="goal-input" placeholder="Add a new goal...">
+                    <button id="addGoalBtn" class="btn-primary">Add</button>
+                </div>
+                <div class="goals-progress">
+                    <div class="progress-text">
+                        <span id="goalsCompleted">0</span> of <span id="goalsTotal">0</span> completed
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div id="goalsList" class="goals-list"></div>
+            </div>
+        </section>
+
+        <!-- Pomodoro Timer Feature -->
+        <section id="pomodoroFeature" class="feature-view" data-feature="pomodoro">
+            <header class="feature-header">
+                <button class="back-btn" aria-label="Back to dashboard">&larr;</button>
+                <h2>Pomodoro Timer</h2>
+            </header>
+            <div class="feature-content">
+                <div class="pomodoro-container">
+                    <div class="session-label" id="sessionLabel">Work Session</div>
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <div class="timer-controls">
+                        <button id="startBtn" class="btn-primary">Start</button>
+                        <button id="pauseBtn" class="btn-secondary" disabled>Pause</button>
+                        <button id="resetBtn" class="btn-secondary">Reset</button>
+                    </div>
+                    <div class="timer-settings">
+                        <label>Work Duration (min):</label>
+                        <input type="number" id="workDuration" min="1" max="60" value="25" class="input-small">
+                        <label>Break Duration (min):</label>
+                        <input type="number" id="breakDuration" min="1" max="30" value="5" class="input-small">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Motivation Quotes Feature -->
+        <section id="quotesFeature" class="feature-view" data-feature="quotes">
+            <header class="feature-header">
+                <button class="back-btn" aria-label="Back to dashboard">&larr;</button>
+                <h2>Daily Inspiration</h2>
+            </header>
+            <div class="feature-content">
+                <div class="quote-container">
+                    <div class="quote-loading" id="quoteLoading">Loading quote...</div>
+                    <blockquote id="quoteText" class="quote-text"></blockquote>
+                    <div id="quoteAuthor" class="quote-author"></div>
+                    <button id="newQuoteBtn" class="btn-primary">Get New Quote</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
