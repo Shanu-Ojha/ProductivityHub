@@ -181,25 +181,47 @@ function setupLocationModal() {
         state.locationPermissionAsked = true;
         saveState();
 
-        // Request geolocation
+        // Request geolocation with timeout
         if ('geolocation' in navigator) {
+            const geolocationTimeout = setTimeout(() => {
+                console.warn('Geolocation request timed out. Using default location.');
+                state.userLocation = {
+                    latitude: 26.8467,  // Lucknow
+                    longitude: 80.9462,
+                    timestamp: Date.now()
+                };
+                saveState();
+                fetchWeather();
+            }, 10000); // 10 second timeout
+
             navigator.geolocation.getCurrentPosition(
                 (position) => {
+                    clearTimeout(geolocationTimeout);
                     state.userLocation = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         timestamp: Date.now()
                     };
                     saveState();
+                    console.log('Location obtained:', state.userLocation);
                     fetchWeather();
                 },
                 (error) => {
-                    console.error('Geolocation error:', error);
-                    console.log('Code:', error.code);
-                    console.log('Message:', error.message);
-                }
+                    clearTimeout(geolocationTimeout);
+                    console.error('Geolocation error:', error.message);
+                    // Use default location (Lucknow)
+                    state.userLocation = {
+                        latitude: 26.8467,
+                        longitude: 80.9462,
+                        timestamp: Date.now()
+                    };
                     saveState();
                     fetchWeather();
+                },
+                {
+                    enableHighAccuracy: false,
+                    timeout: 8000,
+                    maximumAge: 3600000 // Cache location for 1 hour
                 }
             );
         }
@@ -209,10 +231,10 @@ function setupLocationModal() {
         modal.classList.remove('active');
         state.locationPermissionAsked = true;
         saveState();
-        // Use default location (Delhi)
+        // Use default location (Lucknow)
         state.userLocation = {
-            latitude: 28.7041,
-            longitude: 77.1025,
+            latitude: 26.8467,
+            longitude: 80.9462,
             timestamp: Date.now()
         };
         saveState();
@@ -223,16 +245,30 @@ function setupLocationModal() {
 function requestLocationPermission() {
     const modal = document.getElementById('locationModal');
 
+    // Check if geolocation is available and supported
+    if (!('geolocation' in navigator)) {
+        console.warn('Geolocation not supported. Using default location.');
+        state.userLocation = {
+            latitude: 26.8467,  // Lucknow
+            longitude: 80.9462,
+            timestamp: Date.now()
+        };
+        state.locationPermissionAsked = true;
+        saveState();
+        fetchWeather();
+        return;
+    }
+
     // Only show modal once per session or if not asked before
     if (!state.locationPermissionAsked && !state.userLocation) {
         setTimeout(() => {
             modal.classList.add('active');
-        }, 1000);
+        }, 500); // Reduced delay for better UX on GitHub Pages
     } else if (!state.userLocation) {
-        // Use default location if no permission asked yet
+        // Use default location (Lucknow)
         state.userLocation = {
-            latitude: 28.7041,
-            longitude: 77.1025,
+            latitude: 26.8467,
+            longitude: 80.9462,
             timestamp: Date.now()
         };
         fetchWeather();
